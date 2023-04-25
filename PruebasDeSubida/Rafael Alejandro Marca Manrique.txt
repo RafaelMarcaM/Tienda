@@ -1,0 +1,109 @@
+use DBRESERVA
+--a. Mostrar los 5 últimos registros de la tabla PASAJERO ordenados por su apellido paterno y materno.
+
+select top 5 idpasajero as ID, apaterno as ApellidoPaterno, amaterno as ApellidoMaterno from pasajero
+order by idpasajero desc
+go
+
+--b. Mostrar el 70% de registros de la tabla PAIS, ordenado por el nombre.
+
+select top 70 percent * from pais
+order by nombre
+go
+
+--c. Mostrar los pagos realizados en el mes de septiembre del año 2019.
+
+select * from pago
+where month(fecha)='9' 
+go
+
+--d. Mostrar los Pasajeros que no tienen teléfono registrado.
+select* from pasajero
+where telefono is null
+go
+--e. Calcular el área de un Cilindro (2*PI*r*(r+h)), almacenando el valor del radio, valor de la atura y
+--de PI en sus variables respectivas.
+declare @pi float
+declare @r float
+declare @h float
+declare @area float
+
+set @pi =3.14
+set @r = 5
+set @h = 2
+
+set @area =(2*@pi*@r*(@r+@h)) 
+select @area as Area
+go
+
+--f. Permita capturar en la variable el correo electrónico de los pasajeros con código pais ”0003”, usar
+--variables Transact-SQL y sentencia Select para mostrar el email.
+
+declare @correo varchar(50)
+select @correo = email from pasajero
+where idpais = '0003'
+select '0003' as CodigoPais, @correo as Email
+go
+
+
+--g. Permita mostrar las tarifas cuyo precio se encuentre desde $350 hasta $800.
+select *from tarifa
+where precio between 350 and 800
+go
+
+--h. Script que permita mostrar los pasajeros cuya letra segunda de su apellido paterno No se encuentre
+--entre A y C.
+select *from pasajero
+where apaterno like '_[^ac]%'
+go
+
+--i. Permita verificar si un determinado país fue registrado o no en su tabla origen.
+select*from pais
+
+
+--j. Mostrar los pasajeros cuyo tercer carácter de su nombre no sea la letra A, O ó U.
+select*from pasajero
+where nombre like '__[^aou]%'
+go
+
+--k. Permita mostrar los pasajeros con las siguientes columnas idpasajero, nombre, apaterno, amaterno,
+--país, fecha de pago, monto de pago.
+select *from pasajero
+select * from pais
+select *from pago
+--l. Permita mostrar las reservas de un determinado PASAJERO especificado por su nombre. Finalmente,
+--debe ordenar la fecha de reserva de forma ascendente.
+
+--m. Permita mostrar los registros de la tabla pasajero y pago de tal forma que se aplique un producto
+--cartesiano entre sus filas. (Cross Join).
+
+select pas.*,pag.* from pasajero pas cross join pago pag
+go
+
+--n. Permita determinar el total de Aviones que tiene cada aerolínea, y filtrar solo las aerolíneas que
+--tienen más de un avión.
+
+--o. Permita mostrar el acumulado de los montos registrados en la tabla pago por cada año, y mes,
+--considere el año de la columna fecha. Use la Función SUM y la cláusula Group By.
+
+--p. Permita mostrar el total de pasajeros y el monto acumulado de pagos de sus viajes realizados por un
+--determinado país.
+
+--q. Permita determinar el total de pasajeros registrados agrupados por su país, tener en cuenta las
+--columnas a mostrar Nombre del país, Total Pasajeros. Use la Función agregada COUNT y la
+--cláusula Group By e Inner Join.
+
+--r. Permita mostrar los montos más altos y más bajos por año de la tabla pago, ordenados de forma
+--descendente.
+select*from pago
+select max(monto) as Maximo, min(monto) as Minimo, fecha as Fecha from pago
+group by monto order by fecha asc
+go
+
+select max(monto)  from pago
+
+
+
+--s. Permita mostrar el monto promedio de pagos agrupado por países. (Función AVG).
+
+--t. Permita mostrar el total de registros de las tablas Pasajero, País, Pago desde una misma consulta.

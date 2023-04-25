@@ -1,0 +1,92 @@
+--ACTUALIZAR LOS VALORES DE LA COLUMBA IMPUESTOS
+-- POR EL VALOR 11 A TODOS LOS REGISTROS DE LA TABLA TARIFA
+
+SELECT*FROM TARIFA
+
+UPDATE tarifa
+set impuesto=11
+go
+
+--ACTUALIZAR LOS VALORES DE LA COLUMBA IMPUESTOS
+-- aumentadondo 2 A TODOS LOS REGISTROS DE LA TABLA TARIFA
+
+select*from TARIFA
+
+update tarifa
+set impuesto= impuesto +2
+go
+
+--asignar el impuesto a cero solo a los registros
+--cuya clase sea Economia de la tabla tarifa
+
+select*from TARIFA
+
+update tarifa
+set impuesto=0
+where clase='Económica'
+go
+
+--Actualizar los costos de la tabla RESERVA
+--disminuyendo en 50 a los registros
+-- cuyo ingreso se realizo el año 2013, utilizar variables
+ 
+select *from RESERVA
+
+declare @monto money=50
+update reserva
+set costo=costo - @monto
+where year(fecha)=2013
+go
+
+--asignar el texto 'sin fono' en el campo telefono
+--de los pasajeros que sean de Perú
+--todo esto deberá ser realizado en la tabla pasajero.
+
+select*from pais
+select*from pasajero
+
+update pasajero
+set telefono='Sin fono'
+where idpais=(select idpais from pais where nombre='Peru')
+go
+
+-- Eliminar todos los registros de la tabla AEROLÍNEA
+
+select*from aerolinea
+
+delete from aerolinea
+go
+
+--Eliminar el registro de la tabla PASAJERO cuyo idpasajero sea P000004
+select*from pasajero
+delete from pasajero
+where idpasajero='P0000004'
+go
+
+--Eliminar los registro de la tabla PASAJERO
+-- cuyo pais sea Mexico, utilizar subconsultas
+
+select *from pais
+select*from pasajero
+
+delete from pasajero
+where idpais=(select idpais from pais where nombre='Mexico')
+go
+
+--Eliminar los registro de la tabla RESERCVA que
+--sean del año 2013 y que no superen los $70
+
+select*from reserva
+
+delete from reserva
+where year(fecha)=2013 and costo<70
+go
+
+--eliminar los registro de la tabla PAGO
+--QUE  se hab efectuado en el año 2012 o 2013
+
+select *from pago
+
+delete from pago
+where year(fecha)=2012 or year(fecha)=2013
+go
